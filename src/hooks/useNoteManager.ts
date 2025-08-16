@@ -2,32 +2,42 @@ import { useState, useCallback } from 'react';
 import { databaseService } from '@/services/database';
 import type { Note } from '@/types';
 
-export function useNoteManager(songId?: string) {
+export function useNoteManager(projectId?: string) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   const loadNotes = useCallback(async () => {
-    if (!songId) return;
+    if (!projectId) {
+      console.log('No projectId provided, skipping note loading');
+      return;
+    }
     
     try {
-      const songNotes = await databaseService.getNotesBySong(songId);
-      setNotes(songNotes);
+      console.log('Loading notes for project:', projectId);
+      const projectNotes = await databaseService.getNotesByProject(projectId);
+      console.log('Loaded notes:', projectNotes.length);
+      setNotes(projectNotes);
     } catch (error) {
       console.error('Failed to load notes:', error);
     }
-  }, [songId]);
+  }, [projectId]);
 
   const addNote = useCallback(async (timestamp: number, content: string, color?: string) => {
-    if (!songId) return;
+    if (!projectId) {
+      console.error('Cannot add note: no projectId provided');
+      return;
+    }
 
     try {
-      const newNote = await databaseService.createNote(songId, timestamp, content, color);
+      console.log('Creating note:', { projectId, timestamp, content, color });
+      const newNote = await databaseService.createNote(projectId, timestamp, content, color);
+      console.log('Note created:', newNote);
       setNotes(prev => [...prev, newNote].sort((a, b) => a.timestamp - b.timestamp));
       setSelectedNote(newNote);
     } catch (error) {
       console.error('Failed to add note:', error);
     }
-  }, [songId]);
+  }, [projectId]);
 
   const updateNote = useCallback(async (id: string, updates: Partial<Pick<Note, 'content' | 'color' | 'timestamp'>>) => {
     try {

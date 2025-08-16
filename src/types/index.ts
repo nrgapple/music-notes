@@ -5,27 +5,23 @@ export interface Note {
   color?: string;
   createdAt: Date;
   updatedAt: Date;
-  songId: string;
-}
-
-export interface Song {
-  id: string;
-  name: string;
-  fileName: string;
-  duration: number;
-  fileData: ArrayBuffer; // Store the actual file data
-  mimeType: string;
-  createdAt: Date;
-  updatedAt: Date;
-  projectId: string;
+  projectId: string; // Now linked directly to project
 }
 
 export interface Project {
   id: string;
   name: string;
   description?: string;
+  // Song properties are now part of the project
+  fileName: string;
+  duration: number;
+  mimeType: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ProjectWithAudio extends Project {
+  fileData: ArrayBuffer; // Only when we need the audio data
 }
 
 export interface AudioFile {
@@ -46,7 +42,6 @@ export type ViewMode = 'waveform' | 'list';
 
 export interface AppState {
   currentProject: Project | null;
-  currentSong: Song | null;
   audioFile: AudioFile | null;
   notes: Note[];
   playbackState: PlaybackState;
