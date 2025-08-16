@@ -1,6 +1,6 @@
 # 🎵 Music Notes
 
-A Flume-inspired web application for taking dynamic notes on songs with immersive waveform visualization, beat-synchronized effects, and cinematic note previews.
+Express how a song makes you feel through notes keyed to the song. A Flume-inspired web application for taking dynamic notes on songs with immersive waveform visualization, beat-synchronized effects, and cinematic note previews.
 
 ## ✨ Features
 
@@ -19,7 +19,12 @@ A Flume-inspired web application for taking dynamic notes on songs with immersiv
 
 ## 🚀 Live Demo
 
-Visit the live application: [https://music-notes.vercel.app](https://music-notes.vercel.app)
+Visit the live application: [https://musicnotes.vercel.app](https://musicnotes.vercel.app)
+
+### 🌐 URL Structure
+- **Landing Page**: `/` - Express how music makes you feel
+- **Projects**: `/projects` - Browse and manage your music projects
+- **Project Analysis**: `/projects/:id` - Dive deep into a specific song
 
 ## 🛠️ Technology Stack
 
