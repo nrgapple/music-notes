@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Folder, Trash2, Music, Calendar, Upload } from 'lucide-react';
+import { Plus, Folder, Trash2, Music, Calendar, Upload, Download } from 'lucide-react';
 import { databaseService } from '@/services/database';
+import { projectExportService } from '@/services/projectExport';
 import type { Project } from '@/types';
 import { cn } from '@/utils/cn';
 import { formatTime } from '@/utils/audio';
@@ -15,6 +16,9 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
   const [loading, setLoading] = useState(true);
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const [isExporting, setIsExporting] = useState<string | null>(null);
+  const [isImporting, setIsImporting] = useState(false);
+  const importFileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadProjects();
@@ -87,6 +91,59 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
     }
   };
 
+  const handleExportProject = async (projectId: string) => {
+    try {
+      setIsExporting(projectId);
+      await projectExportService.exportProject(projectId);
+    } catch (error) {
+      console.error('Failed to export project:', error);
+      alert('Failed to export project. Please try again.');
+    } finally {
+      setIsExporting(null);
+    }
+  };
+
+  const handleImportProject = () => {
+    importFileRef.current?.click();
+  };
+
+  const handleImportFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsImporting(true);
+      
+      // Validate file first
+      const validation = await projectExportService.validateMnzFile(file);
+      if (!validation.valid) {
+        alert(`Invalid file: ${validation.error}`);
+        return;
+      }
+
+      // Confirm import
+      const shouldImport = confirm(`Import project "${validation.projectName}"?`);
+      if (!shouldImport) return;
+
+      // Import the project
+      const importedProject = await projectExportService.importProject(file);
+      
+      // Refresh projects list
+      await loadProjects();
+      
+      alert(`Project "${importedProject.name}" imported successfully!`);
+    } catch (error) {
+      console.error('Failed to import project:', error);
+      alert('Failed to import project. Please check the file and try again.');
+    } finally {
+      setIsImporting(false);
+      // Clear the input
+      if (importFileRef.current) {
+        importFileRef.current.value = '';
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -113,13 +170,32 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
             <p className="text-muted-foreground mt-2">Select a project or create a new one by uploading a song</p>
           </div>
 
-          <button
-            onClick={() => setShowNewProjectModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors focus-ring"
-          >
-            <Plus className="w-4 h-4" />
-            New Project
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleImportProject}
+              disabled={isImporting}
+              className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors focus-ring disabled:opacity-50"
+            >
+              {isImporting ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="w-4 h-4 border-2 border-current border-t-transparent rounded-full"
+                />
+              ) : (
+                <Upload className="w-4 h-4" />
+              )}
+              Import Project
+            </button>
+            
+            <button
+              onClick={() => setShowNewProjectModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors focus-ring"
+            >
+              <Plus className="w-4 h-4" />
+              New Project
+            </button>
+          </div>
         </div>
 
         {/* Projects Grid */}
@@ -164,15 +240,38 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
                       )}
                     </div>
                     
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteProject(project.id);
-                      }}
-                      className="opacity-0 group-hover:opacity-100 w-8 h-8 rounded flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all focus-ring"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleExportProject(project.id);
+                        }}
+                        disabled={isExporting === project.id}
+                        className="opacity-0 group-hover:opacity-100 w-8 h-8 rounded flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all focus-ring disabled:opacity-50"
+                        title="Export project"
+                      >
+                        {isExporting === project.id ? (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            className="w-3 h-3 border-2 border-current border-t-transparent rounded-full"
+                          />
+                        ) : (
+                          <Download className="w-4 h-4" />
+                        )}
+                      </button>
+                      
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteProject(project.id);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 w-8 h-8 rounded flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all focus-ring"
+                        title="Delete project"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Project Info */}
@@ -289,6 +388,15 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Hidden file input for importing projects */}
+      <input
+        ref={importFileRef}
+        type="file"
+        accept=".mnz"
+        onChange={handleImportFileChange}
+        className="hidden"
+      />
     </div>
   );
 }

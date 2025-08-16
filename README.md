@@ -12,6 +12,7 @@ A Flume-inspired web application for taking dynamic notes on songs with immersiv
 - **🎛️ Audio Visualizer**: Real-time frequency analysis with Flume-inspired particle effects
 - **💫 Beat Detection**: Notes react to music with pulsing, floating, and pop animations
 - **⌨️ Keyboard Shortcuts**: Efficient navigation and note-taking
+- **📦 Project Export/Import**: Share projects as .mnz files with audio and notes included
 - **🎨 Flume-Inspired Design**: Electric blues, ethereal purples, and space-age aesthetics
 - **✨ Dynamic Effects**: Glassmorphism, gradient animations, and responsive visual feedback
 - **💾 Local Storage**: Uses IndexedDB for reliable client-side persistence
@@ -105,7 +106,12 @@ This project is configured for easy deployment on Vercel:
 - **Left/Right arrows** to seek backward/forward
 - **'V'** to toggle between waveform and list views
 
-### 4. Keyboard Shortcuts
+### 4. Share Projects
+- **Export**: Hover over any project and click the download icon to export as `.mnz` file
+- **Import**: Click "Import Project" to load a `.mnz` file from another device
+- **What's included**: Original audio file, all notes with timestamps, and project metadata
+
+### 5. Keyboard Shortcuts
 
 | Shortcut | Action |
 |----------|--------|
