@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { Music, Waves, List, Keyboard, ArrowLeft, Folder } from 'lucide-react';
 import type { AudioFile, ViewMode, Project } from '@/types';

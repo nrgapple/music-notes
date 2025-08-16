@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, MessageSquare } from 'lucide-react';
 import type { AudioFile, PlaybackState, Note } from '@/types';
 import { formatTime, decodeAudioFile, generateWaveformData, normalizeWaveform } from '@/utils/audio';
-import { cn } from '@/utils/cn';
+
 
 interface WaveformViewProps {
   audioFile: AudioFile;

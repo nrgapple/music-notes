@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "description": "A modern web app for taking notes on songs with waveform visualization",
   "type": "module",
+  "homepage": "https://vib-music-notes.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamgeiger/vib-music-notes.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

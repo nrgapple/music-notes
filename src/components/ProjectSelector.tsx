@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Folder, Trash2, Music, Calendar, Upload } from 'lucide-react';
 import { databaseService } from '@/services/database';
