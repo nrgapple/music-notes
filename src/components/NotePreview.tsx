@@ -84,8 +84,6 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
     return () => clearInterval(interval);
   }, [activeNotes.length]);
 
-  const primaryNote = activeNotes[0];
-
   // Beat effect with intensity flicker
   useEffect(() => {
     if (onBeat) {
