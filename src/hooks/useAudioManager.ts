@@ -89,6 +89,7 @@ export function useAudioManager() {
 
   return {
     playbackState,
+    audioElement: audioRef.current,
     play,
     pause,
     seek,

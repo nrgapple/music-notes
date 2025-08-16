@@ -3,18 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 222.2 84% 4.9%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 94.1%;
+  /* Flume-inspired palette: deep space blacks, electric blues, ethereal purples */
+  --background: 240 8% 6%;
+  --foreground: 210 40% 95%;
+  --primary: 200 100% 65%; /* Electric cyan/blue */
+  --primary-foreground: 240 8% 6%;
+  --secondary: 280 60% 70%; /* Ethereal purple */
+  --secondary-foreground: 240 8% 6%;
+  --muted: 240 8% 12%;
+  --muted-foreground: 210 20% 70%;
+  --accent: 310 70% 65%; /* Pink/magenta accent */
+  --accent-foreground: 240 8% 6%;
+  --border: 240 8% 18%;
+  --ring: 200 100% 65%;
+  
+  /* Flume-specific colors */
+  --flume-electric: 200 100% 65%;
+  --flume-purple: 280 60% 70%;
+  --flume-pink: 310 70% 65%;
+  --flume-orange: 25 100% 65%;
+  --flume-green: 150 70% 65%;
+  --flume-deep: 240 8% 3%;
 }
 
 * {
@@ -33,8 +42,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: hsl(var(--background));
+  background: linear-gradient(135deg, hsl(var(--flume-deep)) 0%, hsl(var(--background)) 50%, hsl(240 8% 8%) 100%);
+  background-attachment: fixed;
   color: hsl(var(--foreground));
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -64,4 +76,112 @@ body {
 /* Focus styles */
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+}
+
+/* Flume-inspired animations */
+@keyframes flumeGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 8px hsl(var(--flume-electric) / 0.3));
+    transform: scale(1);
+  }
+  50% { 
+    filter: drop-shadow(0 0 20px hsl(var(--flume-electric) / 0.6));
+    transform: scale(1.02);
+  }
+}
+
+@keyframes flumeFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(1deg); }
+  75% { transform: translateY(8px) rotate(-1deg); }
+}
+
+@keyframes flumePulse {
+  0%, 100% { 
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flumeWave {
+  0% { transform: translateX(-100%) scaleY(1); }
+  50% { transform: translateX(0%) scaleY(1.2); }
+  100% { transform: translateX(100%) scaleY(1); }
+}
+
+@keyframes flumeParticle {
+  0% { 
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+  50% { 
+    transform: translateY(-40px) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-80px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes beatPop {
+  0% { 
+    transform: translateY(20px) scale(0.8);
+    opacity: 0.5;
+  }
+  30% { 
+    transform: translateY(-10px) scale(1.1);
+    opacity: 1;
+  }
+  60% { 
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(30px) scale(0.9);
+    opacity: 0.3;
+  }
+}
+
+/* Flume utility classes */
+.flume-glow {
+  animation: flumeGlow 3s ease-in-out infinite;
+}
+
+.flume-float {
+  animation: flumeFloat 4s ease-in-out infinite;
+}
+
+.flume-pulse {
+  animation: flumePulse 2s ease-in-out infinite;
+}
+
+.flume-gradient {
+  background: linear-gradient(45deg, 
+    hsl(var(--flume-electric)), 
+    hsl(var(--flume-purple)), 
+    hsl(var(--flume-pink)));
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.beat-pop {
+  animation: beatPop 0.8s ease-out;
+}
+
+/* Glassmorphism effects */
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.125);
 }

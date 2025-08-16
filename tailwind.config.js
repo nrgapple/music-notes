@@ -28,6 +28,13 @@ export default {
         },
         border: 'hsl(var(--border))',
         ring: 'hsl(var(--ring))',
+        // Flume-inspired colors
+        'flume-electric': 'hsl(var(--flume-electric))',
+        'flume-purple': 'hsl(var(--flume-purple))',
+        'flume-pink': 'hsl(var(--flume-pink))',
+        'flume-orange': 'hsl(var(--flume-orange))',
+        'flume-green': 'hsl(var(--flume-green))',
+        'flume-deep': 'hsl(var(--flume-deep))',
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',

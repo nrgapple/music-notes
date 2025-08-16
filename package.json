@@ -1,12 +1,12 @@
 {
-  "name": "vib-music-notes",
+  "name": "music-notes",
   "version": "1.0.0",
-  "description": "A modern web app for taking notes on songs with waveform visualization",
+  "description": "A Flume-inspired app for taking dynamic notes on songs with immersive waveform visualization",
   "type": "module",
-  "homepage": "https://vib-music-notes.vercel.app",
+  "homepage": "https://music-notes.vercel.app",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adamgeiger/vib-music-notes.git"
+    "url": "git+https://github.com/adamgeiger/music-notes.git"
   },
   "scripts": {
     "dev": "vite",

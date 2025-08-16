@@ -106,9 +106,9 @@ export function ProjectSelector({ onProjectSelect }: ProjectSelectorProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-3">
-              <Music className="w-8 h-8 text-primary" />
-              Vib Music Notes
+            <h1 className="text-3xl font-bold flex items-center gap-3 flume-glow">
+              <Music className="w-8 h-8 text-primary flume-float" />
+              Music Notes
             </h1>
             <p className="text-muted-foreground mt-2">Select a project or create a new one by uploading a song</p>
           </div>

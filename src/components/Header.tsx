@@ -15,7 +15,7 @@ interface HeaderProps {
 
 export function Header({ audioFile, viewMode, onViewModeChange, onShowShortcuts, currentProject, onBackToProjects }: HeaderProps) {
   return (
-    <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="border-b border-border glass">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
@@ -28,7 +28,7 @@ export function Header({ audioFile, viewMode, onViewModeChange, onShowShortcuts,
               </button>
             )}
             <Music className="w-6 h-6 text-primary" />
-            <h1 className="text-xl font-semibold">Vib Music Notes</h1>
+            <h1 className="text-xl font-semibold flume-glow">Music Notes</h1>
           </div>
           
           {currentProject && (

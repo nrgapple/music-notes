@@ -1,6 +1,6 @@
-# 🎵 Vib Music Notes
+# 🎵 Music Notes
 
-A modern web application for taking notes on songs with interactive waveform visualization and real-time note previews.
+A Flume-inspired web application for taking dynamic notes on songs with immersive waveform visualization, beat-synchronized effects, and cinematic note previews.
 
 ## ✨ Features
 
@@ -8,14 +8,17 @@ A modern web application for taking notes on songs with interactive waveform vis
 - **📊 Waveform Visualization**: Interactive canvas-based waveform with note markers
 - **📝 Note System**: Add timestamped notes that sync with playback
 - **👁️ Dual Views**: Toggle between waveform timeline and organized list view
-- **🎬 Note Previews**: Video-like note popups during playback
+- **🎬 Cinematic Note Previews**: Beat-synchronized note popups with dynamic animations
+- **🎛️ Audio Visualizer**: Real-time frequency analysis with Flume-inspired particle effects
+- **💫 Beat Detection**: Notes react to music with pulsing, floating, and pop animations
 - **⌨️ Keyboard Shortcuts**: Efficient navigation and note-taking
-- **🎨 Modern UI**: Dark theme with smooth animations and responsive design
+- **🎨 Flume-Inspired Design**: Electric blues, ethereal purples, and space-age aesthetics
+- **✨ Dynamic Effects**: Glassmorphism, gradient animations, and responsive visual feedback
 - **💾 Local Storage**: Uses IndexedDB for reliable client-side persistence
 
 ## 🚀 Live Demo
 
-Visit the live application: [https://vib-music-notes.vercel.app](https://vib-music-notes.vercel.app)
+Visit the live application: [https://music-notes.vercel.app](https://music-notes.vercel.app)
 
 ## 🛠️ Technology Stack
 
@@ -39,8 +42,8 @@ Visit the live application: [https://vib-music-notes.vercel.app](https://vib-mus
 
 ```bash
 # Clone the repository
-git clone https://github.com/adamgeiger/vib-music-notes.git
-cd vib-music-notes
+git clone https://github.com/adamgeiger/music-notes.git
+cd music-notes
 
 # Install dependencies
 npm install
