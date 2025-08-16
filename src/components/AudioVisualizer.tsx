@@ -47,10 +47,10 @@ export function AudioVisualizer({ audioElement, isPlaying, onBeatDetected, class
     // @ts-ignore - TypeScript has overly strict typing for Web Audio API
     analyser.getByteFrequencyData(dataArray);
 
-    // Clear canvas with gradient
+    // Clear canvas with subtle gradient for background mode
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, 'hsla(240, 8%, 3%, 0.1)');
-    gradient.addColorStop(1, 'hsla(240, 8%, 6%, 0.1)');
+    gradient.addColorStop(0, 'hsla(240, 8%, 3%, 0.05)');
+    gradient.addColorStop(1, 'hsla(240, 8%, 6%, 0.05)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -76,36 +76,36 @@ export function AudioVisualizer({ audioElement, isPlaying, onBeatDetected, class
     ];
 
     for (let i = 0; i < dataArray.length; i++) {
-      const barHeight = (dataArray[i] / 255) * canvas.height * 0.8;
+      const barHeight = (dataArray[i] / 255) * canvas.height * 0.6; // Reduced height
       const x = i * barWidth;
       const y = canvas.height - barHeight;
       
       const colorIndex = Math.floor((i / dataArray.length) * colors.length);
-      const opacity = Math.max(0.2, dataArray[i] / 255);
+      const opacity = Math.max(0.1, (dataArray[i] / 255) * 0.4); // More subtle opacity
       
       ctx.fillStyle = colors[colorIndex].replace('65%)', `65%, ${opacity})`);
       ctx.fillRect(x, y, barWidth - 1, barHeight);
       
-      // Add glow effect for high frequencies
-      if (dataArray[i] > 200) {
+      // Subtle glow effect only for very high frequencies
+      if (dataArray[i] > 230) {
         ctx.shadowColor = colors[colorIndex];
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 10; // Reduced blur
         ctx.fillRect(x, y, barWidth - 1, barHeight);
         ctx.shadowBlur = 0;
       }
     }
 
-    // Draw particles for beat effect
+    // Draw subtle particles for beat effect
     if (bass > beatThreshold) {
-      const particleCount = Math.floor(bass / 30);
+      const particleCount = Math.floor(bass / 60); // Reduced particle count
       for (let i = 0; i < particleCount; i++) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const size = Math.random() * 4 + 2;
+        const size = Math.random() * 2 + 1; // Smaller particles
         
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsl(${200 + Math.random() * 160}, 70%, 65%)`;
+        ctx.fillStyle = `hsl(${200 + Math.random() * 160}, 70%, 65%, 0.3)`; // More transparent
         ctx.fill();
       }
     }

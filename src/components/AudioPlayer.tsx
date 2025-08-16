@@ -43,7 +43,11 @@ export function AudioPlayer({
     <motion.div
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="border-t border-border glass relative z-50"
+      style={{
+        background: 'linear-gradient(135deg, hsl(var(--background) / 0.95), hsl(var(--muted) / 0.8))',
+        boxShadow: '0 -4px 20px hsl(var(--background) / 0.8)'
+      }}
     >
       <div className="px-6 py-4">
         {/* Progress Bar */}

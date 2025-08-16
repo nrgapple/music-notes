@@ -80,9 +80,8 @@ export function WaveformView({
     const height = rect.height;
     const centerY = height / 2;
 
-    // Clear canvas
-    ctx.fillStyle = 'hsl(224 71% 4%)';
-    ctx.fillRect(0, 0, width, height);
+    // Clear canvas with transparency to show visualizer background
+    ctx.clearRect(0, 0, width, height);
 
     // Draw waveform
     const barWidth = width / waveformData.length;
@@ -226,7 +225,7 @@ export function WaveformView({
 
       <div 
         ref={containerRef}
-        className="flex-1 relative bg-muted/20 rounded-lg overflow-hidden cursor-crosshair group"
+        className="flex-1 relative rounded-lg overflow-hidden cursor-crosshair group"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >

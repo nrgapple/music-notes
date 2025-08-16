@@ -185,6 +185,16 @@ function App() {
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-flume-electric/5 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-flume-purple/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-flume-pink/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        
+        {/* Background Audio Visualizer */}
+        <div className="absolute inset-0 opacity-20">
+          <AudioVisualizer
+            audioElement={audioElement}
+            isPlaying={playbackState.isPlaying}
+            onBeatDetected={handleBeatDetected}
+            className="h-full w-full"
+          />
+        </div>
       </div>
       
       <div className="relative z-10 flex flex-col h-full">
@@ -267,16 +277,6 @@ function App() {
                 isPlaying={playbackState.isPlaying}
                 onBeat={beatDetected}
               />
-
-              {/* Audio Visualizer Overlay */}
-              <div className="fixed bottom-0 left-0 right-0 h-32 pointer-events-none z-40">
-                <AudioVisualizer
-                  audioElement={audioElement}
-                  isPlaying={playbackState.isPlaying}
-                  onBeatDetected={handleBeatDetected}
-                  className="h-full w-full"
-                />
-              </div>
             </div>
 
             <AudioPlayer

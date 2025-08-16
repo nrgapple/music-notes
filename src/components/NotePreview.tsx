@@ -12,14 +12,14 @@ interface NotePreviewProps {
 }
 
 export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePreviewProps) {
-
+  const [beatIntensity, setBeatIntensity] = useState(0);
   const [particles, setParticles] = useState<Array<{id: number, x: number, y: number}>>([]);
 
   const activeNotes = useMemo(() => {
     if (!isPlaying) return [];
     
-    // Show notes that are within 3 seconds of current time for more dramatic effect
-    const tolerance = 3;
+    // Show notes that are within 2 seconds of current time (reduced from 3 for less flicker)
+    const tolerance = 2;
     return notes.filter(note => 
       Math.abs(note.timestamp - currentTime) <= tolerance
     ).sort((a, b) => Math.abs(a.timestamp - currentTime) - Math.abs(b.timestamp - currentTime));
@@ -27,18 +27,31 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
 
   const primaryNote = activeNotes[0];
 
-  // Beat effect
+  // Beat effect with intensity flicker
   useEffect(() => {
     if (onBeat) {
+      // Set high intensity for beat flicker
+      setBeatIntensity(1);
       
-      // Create particles on beat
-      const newParticles = Array.from({length: 5}, (_, i) => ({
+      // Create fewer particles on beat for less distraction
+      const newParticles = Array.from({length: 2}, (_, i) => ({
         id: Date.now() + i,
         x: Math.random() * 100,
         y: Math.random() * 100,
       }));
       
       setParticles(prev => [...prev, ...newParticles]);
+      
+      // Fade out beat intensity over time
+      const fadeOut = setInterval(() => {
+        setBeatIntensity(prev => {
+          const newIntensity = Math.max(0, prev - 0.1);
+          if (newIntensity <= 0) {
+            clearInterval(fadeOut);
+          }
+          return newIntensity;
+        });
+      }, 50);
       
       // Remove particles after animation
       setTimeout(() => {
@@ -66,11 +79,11 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
         }}
         animate={{ 
           opacity: 1, 
-          y: isExactMatch ? -20 : 0, 
-          scale: isExactMatch ? 1.1 : 1,
+          y: isExactMatch ? -10 : 0, 
+          scale: isExactMatch ? 1.05 : 1,
           rotateX: 0,
-          // Beat-synchronized movement
-          x: onBeat ? [0, -10, 10, 0] : 0,
+          // Subtle beat-synchronized movement (reduced from aggressive shaking)
+          x: 0,
         }}
         exit={{ 
           opacity: 0, 
@@ -88,25 +101,32 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
             ease: "easeOut"
           }
         }}
-        className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none ${
-          onBeat ? 'beat-pop' : ''
-        }`}
+        className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none"
         style={{
-          filter: `drop-shadow(0 0 ${isExactMatch ? '30px' : '15px'} hsl(var(--flume-electric) / 0.4))`,
+          filter: `drop-shadow(0 0 ${isExactMatch ? '30px' : '15px'} hsl(var(--flume-electric) / ${0.4 + beatIntensity * 0.6})) brightness(${1 + beatIntensity * 0.5})`,
+          opacity: 0.9 + beatIntensity * 0.1,
         }}
       >
-        <div className="glass rounded-xl shadow-2xl max-w-md mx-4 overflow-hidden">
+        <div 
+          className="glass rounded-xl shadow-2xl max-w-md mx-4 overflow-hidden"
+          style={{
+            borderColor: `hsl(var(--flume-electric) / ${0.3 + beatIntensity * 0.7})`,
+            background: `linear-gradient(135deg, 
+              hsl(var(--background) / ${0.8 + beatIntensity * 0.2}), 
+              hsl(var(--muted) / ${0.3 + beatIntensity * 0.4}))`
+          }}
+        >
           {/* Header */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-border/50 relative">
             <motion.div 
-              className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flume-pulse"
+              className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center"
               animate={{
-                scale: isExactMatch ? [1, 1.2, 1] : 1,
-                rotate: onBeat ? 360 : 0,
+                scale: isExactMatch ? [1, 1.1, 1] : 1,
+                rotate: onBeat ? [0, 10, -10, 0] : 0,
               }}
               transition={{
-                scale: { duration: 0.5, repeat: isExactMatch ? Infinity : 0 },
-                rotate: { duration: 0.3 }
+                scale: { duration: 1, repeat: isExactMatch ? Infinity : 0, ease: "easeInOut" },
+                rotate: { duration: 0.4, ease: "easeOut" }
               }}
             >
               {isExactMatch ? (
@@ -156,11 +176,12 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
                   : timeUntilNote > 0 
                     ? 'hsl(var(--flume-orange))' 
                     : 'hsl(var(--flume-electric))',
-                boxShadow: `0 0 10px ${isExactMatch 
-                  ? 'hsl(var(--flume-green) / 0.5)' 
+                boxShadow: `0 0 ${10 + beatIntensity * 20}px ${isExactMatch 
+                  ? `hsl(var(--flume-green) / ${0.5 + beatIntensity * 0.5})` 
                   : timeUntilNote > 0 
-                    ? 'hsl(var(--flume-orange) / 0.5)' 
-                    : 'hsl(var(--flume-electric) / 0.5)'}`
+                    ? `hsl(var(--flume-orange) / ${0.5 + beatIntensity * 0.5})` 
+                    : `hsl(var(--flume-electric) / ${0.5 + beatIntensity * 0.5})`}`,
+                filter: `brightness(${1 + beatIntensity * 0.5})`
               }}
             />
             
@@ -199,7 +220,10 @@ export function NotePreview({ notes, currentTime, isPlaying, onBeat }: NotePrevi
                 scale: { duration: 1, repeat: isExactMatch ? Infinity : 0 }
               }}
               style={{
-                textShadow: isExactMatch ? '0 0 10px hsl(var(--flume-electric) / 0.3)' : 'none'
+                textShadow: isExactMatch 
+                  ? `0 0 ${10 + beatIntensity * 15}px hsl(var(--flume-electric) / ${0.3 + beatIntensity * 0.5})` 
+                  : `0 0 ${beatIntensity * 8}px hsl(var(--flume-electric) / ${beatIntensity * 0.4})`,
+                color: `hsl(var(--foreground) / ${0.9 + beatIntensity * 0.1})`
               }}
             >
               {primaryNote.content}
