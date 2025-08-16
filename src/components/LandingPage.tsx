@@ -13,23 +13,23 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
   const features = [
     {
       icon: Heart,
-      title: "Feel the Music",
-      description: "Capture the emotions that wash over you as each moment unfolds"
+      title: "Emotional Connection",
+      description: "Document the feelings and memories that songs inspire in you"
     },
     {
       icon: Zap,
-      title: "Beat-Synchronized",
-      description: "Your notes pulse and dance with the rhythm of the song"
+      title: "Synchronized Notes",
+      description: "Your thoughts are perfectly timed to the music as it plays"
     },
     {
       icon: Waves,
       title: "Visual Waveforms",
-      description: "See the music's energy as you layer your thoughts on top"
+      description: "See the music's structure while adding your personal commentary"
     },
     {
       icon: Sparkles,
-      title: "Cinematic Experience",
-      description: "Notes appear like movie subtitles, telling your story"
+      title: "Rich Experience",
+      description: "Notes appear seamlessly as the song progresses"
     }
   ];
 
@@ -137,7 +137,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               className="mb-12"
             >
               <h2 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
-                Express how a song makes you{' '}
+                Capture your thoughts and{' '}
                 <motion.span
                   animate={{ 
                     backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
@@ -146,10 +146,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                   className="bg-gradient-to-r from-flume-electric via-flume-purple to-flume-pink bg-clip-text text-transparent"
                   style={{ backgroundSize: '200% 200%' }}
                 >
-                  feel
+                  emotions
                 </motion.span>
                 <br />
-                through notes keyed to the song
+                as you listen to music
               </h2>
               
               <motion.p
@@ -158,9 +158,9 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 transition={{ delay: 0.8 }}
                 className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
               >
-                Turn your emotional journey through music into a visual story. 
-                Every beat drop, every melody, every moment that moves you—captured 
-                in time and synchronized with the rhythm of your heart.
+                Create a meaningful connection between your thoughts and the music you love. 
+                Add timestamped notes that capture the lyrics, melodies, and moments 
+                that resonate with you most.
               </motion.p>
             </motion.div>
 
@@ -183,7 +183,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 />
                 <span className="relative flex items-center gap-2">
                   <Play className="w-5 h-5" />
-                  Start Your Journey
+                  Get Started
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </motion.button>
@@ -210,10 +210,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             className="text-center mb-16"
           >
             <h3 className="text-3xl md:text-4xl font-bold mb-4">
-              Music That <span className="text-primary">Moves You</span>
+              Music That <span className="text-primary">Inspires</span>
             </h3>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Every song tells a story. Now you can tell yours alongside it.
+              Every song has meaning. Now you can capture what it means to you.
             </p>
           </motion.div>
 
@@ -256,7 +256,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             className="max-w-4xl mx-auto text-center"
           >
             <h3 className="text-3xl md:text-4xl font-bold mb-8">
-              Your Feelings, <span className="text-secondary">Visualized</span>
+              Your Thoughts, <span className="text-secondary">Synchronized</span>
             </h3>
             
             {/* Mock Waveform Preview */}
@@ -286,9 +286,9 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               {/* Sample Notes */}
               <AnimatePresence>
                 {[
-                  { text: "This drop hits different! 🔥", time: "1:23", color: "flume-electric" },
-                  { text: "Goosebumps every time", time: "2:45", color: "flume-purple" },
-                  { text: "The way this builds up... ✨", time: "3:12", color: "flume-pink" }
+                  { text: "Love the guitar melody here", time: "1:23", color: "flume-electric" },
+                  { text: "This harmony gives me chills", time: "2:45", color: "flume-purple" },
+                  { text: "Beautiful crescendo moment", time: "3:12", color: "flume-pink" }
                 ].map((note, i) => (
                   <motion.div
                     key={i}
@@ -322,8 +322,8 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               viewport={{ once: true }}
               className="text-lg text-muted-foreground mb-8"
             >
-              Watch your emotions come alive as notes that pulse, dance, and flow with the music. 
-              Each thought becomes part of the song's visual story.
+              See your notes come to life as they appear in perfect sync with the music. 
+              Each comment becomes part of your personal soundtrack experience.
             </motion.p>
 
             <motion.button
@@ -333,7 +333,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               className="inline-flex items-center gap-3 px-8 py-4 bg-secondary text-secondary-foreground font-semibold rounded-full hover:bg-secondary/90 transition-colors"
             >
               <Headphones className="w-5 h-5" />
-              Experience Music Notes
+              Try Music Notes
               <motion.div
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
